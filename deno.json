@@ -1,0 +1,25 @@
+{
+    "imports": {
+        "std/": "https://deno.land/std@0.210.0/",
+        "x/": "https://deno.land/x/"
+    },
+    "lint": {
+        "include": ["src/"],
+        "rules": {
+            "tags": ["recommended"],
+            "include": ["ban-untagged-todo"]
+        }
+    },
+    "fmt": {
+        "useTabs": false,
+        "lineWidth": 80,
+        "indentWidth": 4,
+        "semiColons": true,
+        "singleQuote": false,
+        "proseWrap": "preserve",
+        "include": ["src/"]
+    },
+    "tasks": {
+        "start": "deno run --allow-read src/main.ts"
+    }
+}

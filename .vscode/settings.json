@@ -1,0 +1,13 @@
+{
+    "cmake.configureOnOpen": false,
+    "cSpell.words": [
+        "Denque",
+        "Fptas",
+        "Mosp",
+        "numer"
+    ],
+    "deno.enable": true,
+    "deno.lint": true,
+    "deno.unstable": true,
+    "prettier.tabWidth": 4
+}
