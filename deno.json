@@ -4,10 +4,16 @@
         "x/": "https://deno.land/x/"
     },
     "lint": {
-        "include": ["src/"],
+        "include": [
+            "src/"
+        ],
         "rules": {
-            "tags": ["recommended"],
-            "include": ["ban-untagged-todo"]
+            "tags": [
+                "recommended"
+            ],
+            "include": [
+                "ban-untagged-todo"
+            ]
         }
     },
     "fmt": {
@@ -17,9 +23,12 @@
         "semiColons": true,
         "singleQuote": false,
         "proseWrap": "preserve",
-        "include": ["src/"]
+        "include": [
+            "src/"
+        ]
     },
     "tasks": {
-        "start": "deno run --allow-read src/main.ts"
+        "start": "deno run --allow-read --allow-write src/main.ts",
+        "debug": "deno run --inspect-brk --allow-all src/main.ts"
     }
 }

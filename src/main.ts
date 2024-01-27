@@ -71,8 +71,7 @@ function main() {
 
                         Deno.writeTextFile(
                             PATH,
-                            `${dimension}, ${vertices}, ${aveDegree}, ${
-                                numer / Number(denom)
+                            `${dimension}, ${vertices}, ${aveDegree}, ${numer / Number(denom)
                             }, ${times.mosp / round}, ${times.fptas / round}`,
                             { append: true },
                         );

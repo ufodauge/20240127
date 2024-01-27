@@ -11,7 +11,6 @@ export const solveFptasMosp = <Dimension extends number>(
     evaluator: (cost: ICost<Dimension>) => bigint,
     epsilon: { numer: bigint; denom: bigint },
 ): Result<Vertex[], string> => {
-    console.time("dijkstra");
     const dijkstraResult = dijkstra(
         graph,
         v_s,
@@ -21,7 +20,6 @@ export const solveFptasMosp = <Dimension extends number>(
     if (dijkstraResult.isErr()) {
         return err(`There's no path from ${v_s} to ${v_t}`);
     }
-    console.timeEnd("dijkstra");
 
     const C = dijkstraResult.value;
     if (C === 0n) {
@@ -31,7 +29,6 @@ export const solveFptasMosp = <Dimension extends number>(
     const K_numer = BigInt(graph.dimension * graph.edges.size) * epsilon.denom;
     const K_denom = epsilon.numer * C;
 
-    console.time("delete edge");
     for (const edgeSet of graph.edges.values()) {
         for (const edge of edgeSet) {
             if (edge.cost.values.some((v) => v > C)) {
@@ -39,7 +36,6 @@ export const solveFptasMosp = <Dimension extends number>(
             }
         }
     }
-    console.timeEnd("delete edge");
 
     return solveMosp(graph, v_s, v_t, evaluator, {
         costMap: new CostMap((cost) => cost.map((c) => K_numer * c / K_denom)),

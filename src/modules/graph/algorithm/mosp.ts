@@ -50,7 +50,7 @@ export function solveMosp<D extends number>(
     }
 
     const labelsOfTerminate = labelMap[v_t];
-    if (labelsOfTerminate) {
+    if (labelsOfTerminate.length > 0) {
         const label = labelsOfTerminate.reduce((l_1, l_2) =>
             evaluator(l_1.cost) > evaluator(l_2.cost) ? l_2 : l_1
         );
