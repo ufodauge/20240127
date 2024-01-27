@@ -1,4 +1,5 @@
-import { assertEquals } from "https://deno.land/std@0.209.0/assert/mod.ts";
+
+import { assertEquals } from "std/assert/assert_equals.ts";
 import { dijkstra } from "../dijkstra.ts";
 import { Cost } from "../../cost.ts";
 import { DirectedGraph } from "../../graph.ts";

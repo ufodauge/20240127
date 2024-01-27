@@ -8,7 +8,7 @@ import {
     createRandomSpanningTree,
 } from "../createConnectedGraph.ts";
 import { createVertex } from "../vertex.ts";
-import ProgressBar from "https://deno.land/x/progress@v1.4.4/mod.ts";
+import ProgressBar from "x/progress@v1.4.4/mod.ts";
 import { CostMap } from "../algorithm/costMap.ts";
 
 Deno.test("Create Spanning Tree", () => {
@@ -35,7 +35,7 @@ Deno.test("Create Spanning Tree", () => {
     for (const i of range(VERTICES_COUNT - 1)) {
         const v_t = createVertex(i + 1).expect("Never failures.");
 
-        const path = dijkstra(graph2, v_s, v_t, new CostMap((c) => c));
+        const path = dijkstra(graph2, v_s, v_t, new CostMap((c) => c.sum()));
 
         assert(
             path.isOk(),
@@ -78,7 +78,7 @@ Deno.test("Create Connected Graph", async () => {
     for (const i of range(VERTICES_COUNT - 1)) {
         const v_t = createVertex(i + 1).expect("Never failures.");
 
-        const path = dijkstra(graph2, v_s, v_t, new CostMap((c) => c));
+        const path = dijkstra(graph2, v_s, v_t, new CostMap((c) => c.sum()));
 
         assert(path.isOk(), `There's any paths from ${v_s} to ${v_t}.`);
         await progress.render(++completed);

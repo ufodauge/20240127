@@ -62,7 +62,7 @@ Deno.test("FPTAS MOSP test", () => {
 });
 
 Deno.test("Performance test", () => {
-    const VERTICES_COUNT = 6000;
+    const VERTICES_COUNT = 60000;
     const AVE_DEGREE     = 12;
     const MAX_BIT_LENGTH = 2000;
 
