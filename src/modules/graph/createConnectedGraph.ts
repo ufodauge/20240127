@@ -1,7 +1,6 @@
 import { Edge } from "./edge.ts";
 import { DirectedGraph } from "./graph.ts";
 import { createVertex } from "./vertex.ts";
-import { range } from "../utils/range.ts";
 import { ArrayUtils } from "../utils/shuffle.ts";
 import { Vertex } from "./types/mod.ts";
 import { Cost } from "./cost.ts";
@@ -30,7 +29,7 @@ export function createRandomSpanningTree<Dimension extends number>(
     ArrayUtils.shuffle(vertices);
     vertices.push(startVertex);
 
-    for (const i of range(verticesCount - 1)) {
+    for (let i = 0; i < verticesCount - 1; i++) {
         const v_a = vertices[i];
 
         const j = Math.ceil((verticesCount - 1 - i) * Math.random()) + i;
@@ -71,7 +70,7 @@ export function createRandomConnectedGraph<Dimension extends number>(
     ArrayUtils.shuffle(vertices);
     vertices.push(startVertex);
 
-    for (const i of range(verticesCount - 1)) {
+    for (let i = 0; i < verticesCount - 1; i++) {
         const v_a = vertices[i];
 
         let j = i;

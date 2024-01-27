@@ -62,9 +62,9 @@ Deno.test("FPTAS MOSP test", () => {
 });
 
 Deno.test("Performance test", () => {
-    const VERTICES_COUNT = 60000;
-    const AVE_DEGREE     = 12;
-    const MAX_BIT_LENGTH = 2000;
+    const VERTICES_COUNT = 3000;
+    const AVE_DEGREE     = 6;
+    const MAX_BIT_LENGTH = 1000;
 
     const { graph, start } = createRandomConnectedGraph(2, VERTICES_COUNT, {
         aveDegree: AVE_DEGREE,

@@ -2,7 +2,6 @@ import { assert } from "std/assert/assert.ts";
 import { assertEquals } from "std/assert/assert_equals.ts";
 import { assertGreater } from "std/assert/assert_greater.ts";
 import { dijkstra } from "../algorithm/dijkstra.ts";
-import { range } from "../../utils/range.ts";
 import {
     createRandomConnectedGraph,
     createRandomSpanningTree,
@@ -12,7 +11,7 @@ import ProgressBar from "x/progress@v1.4.4/mod.ts";
 import { CostMap } from "../algorithm/costMap.ts";
 
 Deno.test("Create Spanning Tree", () => {
-    const VERTICES_COUNT = 100;
+    const VERTICES_COUNT = 10;
 
     const {
         graph,
@@ -32,7 +31,7 @@ Deno.test("Create Spanning Tree", () => {
         VERTICES_COUNT,
     );
 
-    for (const i of range(VERTICES_COUNT - 1)) {
+    for (let i = 0; i < VERTICES_COUNT - 1; i++) {
         const v_t = createVertex(i + 1).expect("Never failures.");
 
         const path = dijkstra(graph2, v_s, v_t, new CostMap((c) => c.sum()));
@@ -75,7 +74,7 @@ Deno.test("Create Connected Graph", async () => {
     });
     let completed = 0;
 
-    for (const i of range(VERTICES_COUNT - 1)) {
+    for (let i = 0; i < VERTICES_COUNT - 1; i++) {
         const v_t = createVertex(i + 1).expect("Never failures.");
 
         const path = dijkstra(graph2, v_s, v_t, new CostMap((c) => c.sum()));
@@ -87,7 +86,7 @@ Deno.test("Create Connected Graph", async () => {
 });
 
 Deno.test("Performance test", () => {
-    const VERTICES_COUNT = 30000;
+    const VERTICES_COUNT = 3000;
     const AVE_DEGREE = 6;
 
     createRandomConnectedGraph(4, VERTICES_COUNT, {

@@ -82,8 +82,3 @@ Deno.test("Cost test", () => {
         Cost.fromValues(4n, 12n, 27n).values,
     );
 });
-
-Deno.test("Random cost", () => {
-    const cost = Cost.random(32, 100);
-    console.log(cost.values);
-});

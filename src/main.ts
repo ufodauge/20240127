@@ -5,7 +5,6 @@ import { measurePerformance } from "./modules/utils/performance.ts";
 import { createRandomConnectedGraph } from "./modules/graph/createConnectedGraph.ts";
 import { ICost } from "./modules/graph/types/mod.ts";
 import { createVertex } from "./modules/graph/vertex.ts";
-import { range } from "./modules/utils/range.ts";
 
 const PATH = "./result.txt";
 
@@ -48,7 +47,7 @@ function main() {
                         };
                         const round = 100;
 
-                        for (const _ of range(round)) {
+                        for (let i = 0; i < round; i++) {
                             const v_t = createVertex(
                                 Math.floor(Math.random() * vertices),
                             ).expect("Never failures.");
