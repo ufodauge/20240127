@@ -11,8 +11,9 @@ export const solveFptasMosp = <Dimension extends number>(
     evaluator: (cost: ICost<Dimension>) => bigint,
     epsilon: { numer: bigint; denom: bigint },
 ): Result<Vertex[], string> => {
+    const cloned = graph.clone()
     const dijkstraResult = dijkstra(
-        graph,
+        cloned,
         v_s,
         v_t,
         new CostMap((c) => c.sum()),
@@ -26,10 +27,10 @@ export const solveFptasMosp = <Dimension extends number>(
         return ok([]);
     }
 
-    const K_numer = BigInt(graph.dimension * graph.edges.size) * epsilon.denom;
+    const K_numer = BigInt(cloned.dimension * cloned.edges.size) * epsilon.denom;
     const K_denom = epsilon.numer * C;
 
-    for (const edgeSet of graph.edges.values()) {
+    for (const edgeSet of cloned.edges.values()) {
         for (const edge of edgeSet) {
             if (edge.cost.values.some((v) => v > C)) {
                 edgeSet.delete(edge);
@@ -37,7 +38,7 @@ export const solveFptasMosp = <Dimension extends number>(
         }
     }
 
-    return solveMosp(graph, v_s, v_t, evaluator, {
+    return solveMosp(cloned, v_s, v_t, evaluator, {
         costMap: new CostMap((cost) => cost.map((c) => K_numer * c / K_denom)),
     });
 };

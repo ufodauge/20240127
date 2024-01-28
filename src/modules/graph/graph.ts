@@ -1,17 +1,20 @@
 import { IDirectedGraph, Vertex } from "./types/mod.ts";
 import { Edge } from "./edge.ts";
+import { ICost } from "./types/mod.ts";
+import { zip } from "../utils/zip.ts";
+import { Result, err, ok } from "../utils/result.ts";
 
-export class DirectedGraph<Dimension extends number>
-    implements IDirectedGraph<Dimension> {
-    readonly edges: Map<Vertex, Set<Edge<Dimension>>>;
-    readonly dimension: Dimension;
+export class DirectedGraph<D extends number>
+    implements IDirectedGraph<D> {
+    readonly edges: Map<Vertex, Set<Edge<D>>>;
+    readonly dimension: D;
 
-    constructor(dimension: Dimension) {
+    constructor(dimension: D) {
         this.edges = new Map();
         this.dimension = dimension;
     }
 
-    addEdge(edge: Edge<Dimension>) {
+    addEdge(edge: Edge<D>) {
         const { vertices: [from, to] } = edge;
 
         const edgeSet = this.edges.get(from);
@@ -55,7 +58,7 @@ export class DirectedGraph<Dimension extends number>
         return edge?.size ?? 0;
     }
 
-    clone(): DirectedGraph<Dimension> {
+    clone(): DirectedGraph<D> {
         const graph = new DirectedGraph(this.dimension);
 
         this.edges.forEach((edgeSet) => {
@@ -66,57 +69,36 @@ export class DirectedGraph<Dimension extends number>
 
         return graph;
     }
+
+    getCostFromPath(path: Vertex[]): Result<ICost<D>, string> {
+        const edgesIter = zip<Vertex, Vertex>(
+            path.slice(0, -1).values(),
+            path.slice(1).values(),
+        )
+
+        const costs = [];
+        for (const [s, t] of edgesIter) {
+            const edges = this.edges.get(s);
+            if (!edges) {
+                return err(`There's no edges from ${s}.`)
+            }
+
+            let isOk = false
+            for (const edge of edges.values()) {
+                if (edge.getOpponent(s) === t) {
+                    costs.push(edge.cost);
+                    isOk = true;
+                    break;
+                }
+            }
+
+            if (!isOk) {
+                return err(`There's no edges from ${s} to ${t}.`)
+            }
+        }
+
+        return ok(costs.reduce((acc, c) => acc.toAdded(c)))
+    }
 }
 
-// export class UndirectedGraph<Dimension extends number>
-//     implements IUndirectedGraph<Dimension> {
-//     readonly edges: Map<Vertex, Set<Edge<Dimension>>>;
-//     readonly dimension: Dimension;
 
-//     constructor(dimension: Dimension) {
-//         this.edges = new Map();
-//         this.dimension = dimension;
-//     }
-
-//     addEdge(edge: Edge<Dimension>) {
-//         const { vertices } = edge;
-
-//         for (const vertex of vertices) {
-//             const edgeSet = this.edges.get(vertex);
-//             if (edgeSet) {
-//                 this.edges.set(
-//                     vertex,
-//                     edgeSet.add(edge),
-//                 );
-//             } else {
-//                 this.edges.set(
-//                     vertex,
-//                     new Set([edge]),
-//                 );
-//             }
-//         }
-
-//         return this;
-//     }
-
-//     hasEdgeOf(vertices: [Vertex, Vertex]): boolean {
-//         const [v_a, v_b] = vertices;
-//         const edges = this.edges.get(v_a);
-//         if (edges === undefined) {
-//             return false;
-//         }
-
-//         for (const edge of edges.values()) {
-//             if (edge.getOpponent(v_a) === v_b) {
-//                 return true;
-//             }
-//         }
-
-//         return false;
-//     }
-
-//     getDegree(from: Vertex): number {
-//         const edge = this.edges.get(from);
-//         return edge?.size ?? 0;
-//     }
-// }

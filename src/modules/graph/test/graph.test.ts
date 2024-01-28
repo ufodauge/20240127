@@ -3,6 +3,7 @@ import { Cost } from "../cost.ts";
 import { DirectedGraph } from "../graph.ts";
 import { Edge } from "../edge.ts";
 import { createVertex } from "../vertex.ts";
+import { ok } from "../../utils/result.ts";
 
 Deno.test("DirectedGraph test", () => {
     const COST_DIMENSION = 2;
@@ -41,4 +42,9 @@ Deno.test("DirectedGraph test", () => {
             [v3, new Set([])]
         ]),
     );
+
+    assertEquals(
+        graph.getCostFromPath([v0, v1, v2, v3]),
+        ok(Cost.fromValues(7n, 4n))
+    )
 });
