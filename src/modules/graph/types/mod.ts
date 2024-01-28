@@ -70,6 +70,8 @@ export interface IGraph<Dimension extends number> {
     addEdge(edge: IEdge<Dimension>): this;
 
     hasEdgeOf(vertices: [Vertex, Vertex]): boolean;
+
+    clone(): IGraph<Dimension>;
 }
 
 export interface IDirectedGraph<Dimension extends number>
