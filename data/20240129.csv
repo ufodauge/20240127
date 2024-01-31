@@ -1,4 +1,4 @@
-dimension, vertices, ave_degree, epsilon, mosp, fptas_mosp, cost_diff_%, 
+dimension, vertices, ave_degree, epsilon, mosp, fptas_mosp, cost_diff_%,
 8, 800, 6, 0.4, 15513, 39, 0
 8, 800, 6, 0.4, 11146, 69, 0
 8, 800, 6, 0.4, 19881, 21, 0
