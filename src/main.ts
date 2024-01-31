@@ -7,7 +7,7 @@ import { createVertex } from "./modules/graph/vertex.ts";
 
 const PATH = "./result.csv";
 
-const MAX_BIT_LENGTH = 400;
+const MAX_BIT_LENGTH = 1000;
 // const MAX_COST_VALUE = (0b1n << BigInt(MAX_BIT_LENGTH)) - 1n;
 
 function main() {
@@ -18,7 +18,7 @@ function main() {
 
     const aveDegree = 4;
     // const numer = 2;
-    const vertices = 600;
+    const vertices = 1000;
     const dimension = 8;
 
     // for (let dimension = 60; dimension >= 10; dimension -= 10) {
