@@ -19,7 +19,7 @@ function main() {
     const aveDegree = 4;
     const numer = 2;
 
-    for (let dimension = 128; dimension >= 2; dimension -= 2) {
+    for (let dimension = 130; dimension <= 256; dimension += 2) {
         const evaluator = (c: ICost<typeof dimension>) =>
             c.values.reduce((acc, v) => acc >= v ? acc : v);
 
