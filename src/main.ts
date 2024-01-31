@@ -16,20 +16,22 @@ function main() {
     );
 
     const aveDegree = 4;
-    const numer = 2;
+    // const numer = 2;
+    const vertices = 1600;
     const dimension = 50;
 
     // for (let dimension = 60; dimension >= 10; dimension -= 10) {
     const evaluator = (c: ICost<typeof dimension>) =>
         c.values.reduce((acc, v) => acc >= v ? acc : v);
 
-    for (
-        let vertices = 2000;
-        vertices >= 200;
-        vertices -= 200
-    ) {
-        // for (let aveDegree = 8; aveDegree > 2; aveDegree--) {
-        // for (let numer = 42; numer >= 2; numer -= 8) {
+    // for (
+    //     let vertices = 2000;
+    //     vertices >= 200;
+    //     vertices -= 200
+    // ) {
+    // for (let aveDegree = 8; aveDegree > 2; aveDegree--) {
+    // for (let numer = 1000; numer >= 10; numer -= 100) {
+    for (const numer of [1000, 800, 600, 400, 200, 100, 80, 60, 40, 20, 10, 8, 6, 4, 2, 1]) {
         const denom = 5n;
         const round = 100;
 
