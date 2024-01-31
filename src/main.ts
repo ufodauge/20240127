@@ -12,7 +12,7 @@ const MAX_BIT_LENGTH = 200;
 function main() {
     Deno.writeTextFile(
         PATH,
-        "dimension, vertices, ave_degree, epsilon, mosp, fptas_mosp, cost_diff_%\n",
+        "dimension,vertices,ave_degree,epsilon,fptas_mosp\n",
     );
 
     const vertices = 600;
@@ -31,7 +31,7 @@ function main() {
         //     for (let aveDegree = 6; aveDegree >= 3; aveDegree--) {
         // for (let numer = 2; numer <= 128; numer *= 4) {
         const denom = 5n;
-        const round = 20;
+        const round = 100;
 
         for (let i = 0; i < round; i++) {
             const { graph, start: v_s } =
