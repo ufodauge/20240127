@@ -1,24 +1,25 @@
 // import { solveMosp } from "./modules/graph/algorithm/mosp.ts";
 import { solveFptasMosp } from "./modules/graph/algorithm/fptas_mosp.ts";
+import { solveMosp } from "./modules/graph/algorithm/mosp.ts";
 import { createRandomConnectedGraph } from "./modules/graph/createConnectedGraph.ts";
 import { ICost } from "./modules/graph/types/mod.ts";
 import { createVertex } from "./modules/graph/vertex.ts";
 
 const PATH = "./result.csv";
 
-const MAX_BIT_LENGTH = 1000;
+const MAX_BIT_LENGTH = 400;
 // const MAX_COST_VALUE = (0b1n << BigInt(MAX_BIT_LENGTH)) - 1n;
 
 function main() {
     Deno.writeTextFile(
         PATH,
-        "dimension,vertices,ave_degree,epsilon,fptas_mosp\n",
+        "dimension,vertices,ave_degree,epsilon,time_mosp,time_fptas,eval_mosp,eval_fptas\n",
     );
 
     const aveDegree = 4;
     // const numer = 2;
-    const vertices = 1600;
-    const dimension = 50;
+    const vertices = 600;
+    const dimension = 8;
 
     // for (let dimension = 60; dimension >= 10; dimension -= 10) {
     const evaluator = (c: ICost<typeof dimension>) =>
@@ -30,8 +31,7 @@ function main() {
     //     vertices -= 200
     // ) {
     // for (let aveDegree = 8; aveDegree > 2; aveDegree--) {
-    // for (let numer = 1000; numer >= 10; numer -= 100) {
-    for (const numer of [1000, 800, 600, 400, 200, 100, 80, 60, 40, 20, 10, 8, 6, 4, 2, 1]) {
+    for (let numer = 98; numer >= 2; numer -= 16) {
         const denom = 5n;
         const round = 100;
 
@@ -59,14 +59,14 @@ function main() {
                 }
             })();
 
-            // const timeMosp = new Date();
-            // const pathMosp = solveMosp(graph, v_s, v_t, evaluator)
-            //     .expect("Solve mosp error")
-            // const timeEndMosp = new Date().getTime() - timeMosp.getTime()
-            // console.log(`mosp: ${timeEndMosp}`);
+            const timeMosp = new Date();
+            const pathMosp = solveMosp(graph, v_s, v_t, evaluator)
+                .expect("Solve mosp error")
+            const timeEndMosp = new Date().getTime() - timeMosp.getTime()
+            console.log(`mosp: ${timeEndMosp}`);
 
             const timeFptas = new Date();
-            const _ = solveFptasMosp(
+            const pathFptas = solveFptasMosp(
                 graph,
                 v_s,
                 v_t,
@@ -80,13 +80,12 @@ function main() {
                 timeFptas.getTime();
             console.log(`fptas_mosp: ${timeEndFptas}`);
 
-            // const diff = evaluator(graph.getCostFromPath(pathFptas).expect(""))
-            //     - evaluator(graph.getCostFromPath(pathMosp).expect(""))
-
             Deno.writeTextFile(
                 PATH,
                 `${dimension}, ${vertices}, ${aveDegree}, ${numer / Number(denom)
-                }, ${timeEndFptas}\n`,
+                }, ${timeEndMosp}, ${timeEndFptas}, ${
+                    evaluator(graph.getCostFromPath(pathMosp).expect(""))
+                }, ${evaluator(graph.getCostFromPath(pathFptas).expect(""))}\n`,
                 { append: true },
             );
         }
