@@ -28,7 +28,7 @@
         ]
     },
     "tasks": {
-        "start": "deno run --allow-read --allow-write src/main.ts",
+        "start": "deno run --allow-read --allow-write src/main.ts; git commit -a -m \"t\"; git push",
         "debug": "deno run --inspect-brk --allow-all src/main.ts"
     }
 }

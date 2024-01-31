@@ -15,83 +15,83 @@ function main() {
         "dimension,vertices,ave_degree,epsilon,fptas_mosp\n",
     );
 
-    // const vertices = 600;
-    // const aveDegree = 4;
-    // const numer = 2;
+    const aveDegree = 4;
+    const numer = 2;
+    const dimension = 50;
 
-    for (let dimension = 60; dimension >= 10; dimension -= 10) {
-        const evaluator = (c: ICost<typeof dimension>) =>
-            c.values.reduce((acc, v) => acc >= v ? acc : v);
+    // for (let dimension = 60; dimension >= 10; dimension -= 10) {
+    const evaluator = (c: ICost<typeof dimension>) =>
+        c.values.reduce((acc, v) => acc >= v ? acc : v);
 
-        for (
-            let vertices = 1200;
-            vertices >= 100;
-            vertices -= 200
-        ) {
-            for (let aveDegree = 8; aveDegree > 2; aveDegree--) {
-                for (let numer = 4; numer <= 4096; numer *= 4) {
-                    const denom = 5n;
-                    const round = 20;
+    for (
+        let vertices = 2000;
+        vertices >= 200;
+        vertices -= 200
+    ) {
+        // for (let aveDegree = 8; aveDegree > 2; aveDegree--) {
+        // for (let numer = 42; numer >= 2; numer -= 8) {
+        const denom = 5n;
+        const round = 100;
 
-                    for (let i = 0; i < round; i++) {
-                        const { graph, start: v_s } =
-                            createRandomConnectedGraph(
-                                dimension,
-                                vertices,
-                                {
-                                    aveDegree,
-                                    maxBitLength: MAX_BIT_LENGTH,
-                                },
-                            );
+        for (let i = 0; i < round; i++) {
+            const { graph, start: v_s } =
+                createRandomConnectedGraph(
+                    dimension,
+                    vertices,
+                    {
+                        aveDegree,
+                        maxBitLength: MAX_BIT_LENGTH,
+                    },
+                );
 
-                        console.log(`round ${i + 1}`);
-                        const v_t = (() => {
-                            while (true) {
-                                const v = createVertex(
-                                    Math.floor(Math.random() * vertices),
-                                ).expect("Never failures.");
+            console.log(`round ${i + 1}`);
+            const v_t = (() => {
+                while (true) {
+                    const v = createVertex(
+                        Math.floor(Math.random() * vertices),
+                    ).expect("Never failures.");
 
-                                if (v !== v_s) {
-                                    return v;
-                                }
-                            }
-                        })();
-
-                        // const timeMosp = new Date();
-                        // const pathMosp = solveMosp(graph, v_s, v_t, evaluator)
-                        //     .expect("Solve mosp error")
-                        // const timeEndMosp = new Date().getTime() - timeMosp.getTime()
-                        // console.log(`mosp: ${timeEndMosp}`);
-
-                        const timeFptas = new Date();
-                        const _ = solveFptasMosp(
-                            graph,
-                            v_s,
-                            v_t,
-                            evaluator,
-                            {
-                                numer: BigInt(numer),
-                                denom,
-                            },
-                        ).expect("Solve fptas-mosp error");
-                        const timeEndFptas = new Date().getTime() -
-                            timeFptas.getTime();
-                        console.log(`fptas_mosp: ${timeEndFptas}`);
-
-                        // const diff = evaluator(graph.getCostFromPath(pathFptas).expect(""))
-                        //     - evaluator(graph.getCostFromPath(pathMosp).expect(""))
-
-                        Deno.writeTextFile(
-                            PATH,
-                            `${dimension}, ${vertices}, ${aveDegree}, ${numer / Number(denom)
-                            }, ${timeEndFptas}\n`,
-                            { append: true },
-                        );
+                    if (v !== v_s) {
+                        return v;
                     }
                 }
-            }
+            })();
+
+            // const timeMosp = new Date();
+            // const pathMosp = solveMosp(graph, v_s, v_t, evaluator)
+            //     .expect("Solve mosp error")
+            // const timeEndMosp = new Date().getTime() - timeMosp.getTime()
+            // console.log(`mosp: ${timeEndMosp}`);
+
+            const timeFptas = new Date();
+            const _ = solveFptasMosp(
+                graph,
+                v_s,
+                v_t,
+                evaluator,
+                {
+                    numer: BigInt(numer),
+                    denom,
+                },
+            ).expect("Solve fptas-mosp error");
+            const timeEndFptas = new Date().getTime() -
+                timeFptas.getTime();
+            console.log(`fptas_mosp: ${timeEndFptas}`);
+
+            // const diff = evaluator(graph.getCostFromPath(pathFptas).expect(""))
+            //     - evaluator(graph.getCostFromPath(pathMosp).expect(""))
+
+            Deno.writeTextFile(
+                PATH,
+                `${dimension}, ${vertices}, ${aveDegree}, ${numer / Number(denom)
+                }, ${timeEndFptas}\n`,
+                { append: true },
+            );
         }
     }
+    // }
+    // }
+    // }
 }
 
 main();
