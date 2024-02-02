@@ -1,4 +1,3 @@
-// import { solveMosp } from "./modules/graph/algorithm/mosp.ts";
 import { solveFptasMosp } from "./modules/graph/algorithm/fptas_mosp.ts";
 import { solveMosp } from "./modules/graph/algorithm/mosp.ts";
 import { createRandomConnectedGraph } from "./modules/graph/createConnectedGraph.ts";
@@ -7,7 +6,7 @@ import { createVertex } from "./modules/graph/vertex.ts";
 
 const PATH = "./result.csv";
 
-const MAX_BIT_LENGTH = 1000;
+const MAX_BIT_LENGTH = 100;
 // const MAX_COST_VALUE = (0b1n << BigInt(MAX_BIT_LENGTH)) - 1n;
 
 function main() {
