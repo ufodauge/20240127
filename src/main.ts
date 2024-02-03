@@ -10,20 +10,20 @@ const AVE_DEGREE = 4;
 
 Deno.writeTextFile(
     PATH,
-    "dimension,vertices,max_bit_length,epsilon,time_mosp,time_fptas,eval_mosp,eval_fptas\n",
+    "dimension,vertices,max_bit_length,epsilon,time_fptas\n",
 );
 
-for (let dimension = 10; dimension >= 10; dimension -= 2) {
+for (let dimension = 60; dimension >= 40; dimension -= 10) {
     const evaluator = (c: ICost<typeof dimension>) =>
         c.values.reduce((acc, v) => acc >= v ? acc : v);
 
     for (
-        let vertices = 1000;
-        vertices >= 100;
+        let vertices = 500;
+        vertices >= 500;
         vertices -= 100
     ) {
         for (let numer = 1; numer <= 512; numer *= 2) {
-            for (let maxBitLength = 500; maxBitLength >= 50; maxBitLength -= 50) {
+            for (let maxBitLength = 250; maxBitLength >= 250; maxBitLength -= 50) {
 
                 const denom = 5n;
                 const round = 10;
